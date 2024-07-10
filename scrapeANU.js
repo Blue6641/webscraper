@@ -2,8 +2,8 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const { default: puppeteer } = require("puppeteer");
 
-const header = "https://uctalent.canberra.edu.au";
-const url = header + "/en/listing/";
+const url = "https://jobs.anu.edu.au/jobs/search";
+// const url = header + "/en/listing/";
 
 const generateJobsMap = async (url) => {
   const browser = await puppeteer.launch();
@@ -16,15 +16,15 @@ const generateJobsMap = async (url) => {
     });
 
     // Wait for the expand button to appear
-    await page.waitForSelector(".more-link.button", { timeout: 10000 });
+    // await page.waitForSelector(".more-link.button", { timeout: 10000 });
 
     // Trigger a native click event on the expand link
-    await page.evaluate(() => {
-      document.querySelector(".more-link.button").click();
-    });
+    // await page.evaluate(() => {
+    //   document.querySelector(".more-link.button").click();
+    // });
 
     // Wait for new content to load after clicking
-    await page.waitForSelector(".job-link", { timeout: 10000 });
+    await page.waitForSelector("a", { timeout: 10000 });
 
     // Simulate wait using setTimeout in page.evaluate
     await page.evaluate(
@@ -37,12 +37,12 @@ const generateJobsMap = async (url) => {
     const jobsMap = {};
 
     // Select all anchor tags and extract href attributes
-    $(".job-link").each((index, element) => {
+    $("a").each((index, element) => {
       const title = $(element).text().trim();
       const link = $(element).attr("href");
       // Make sure the href attribute exists and is not empty
       if (title && link && link.trim() !== "") {
-        jobsMap[title] = header + link;
+        jobsMap[title] = link;
       }
     });
 
