@@ -1,4 +1,4 @@
-const cheerio = require("cheerio");
+// const cheerio = require("cheerio");
 const { default: puppeteer } = require("puppeteer");
 
 const header = "https://jobs.anu.edu.au/jobs";
